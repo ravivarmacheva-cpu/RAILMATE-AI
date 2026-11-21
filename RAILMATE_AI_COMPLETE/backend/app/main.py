@@ -198,7 +198,11 @@ async def lifespan(app):
     Base.metadata.create_all(engine); seed(); yield
 
 app=FastAPI(title="RAILMATE AI API",version="1.0.0",description="Learning/demo backend; seeded train records are not live.",lifespan=lifespan)
-origins=[x.strip() for x in os.getenv("CORS_ORIGINS","http://localhost:5173,http://127.0.0.1:5173").split(",") if x.strip()]
+origins=[
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://railmate-ai.vercel.app"
+]
 app.add_middleware(CORSMiddleware,allow_origins=origins,allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
 app.mount("/media",StaticFiles(directory=str(MEDIA)),name="media")
 
